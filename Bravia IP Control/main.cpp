@@ -61,6 +61,18 @@ int main(int argc, const char * argv[])
         // out of range error handling
       }
     }
+    
+    // ******* MODE *******
+
+    else if(!strcmp(argv[2], "input") && !argv[3])
+    {
+      bc.getInput();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    // ******* END *******
+    
     else
     {
       // ???

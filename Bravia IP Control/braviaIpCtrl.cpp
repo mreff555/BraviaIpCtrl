@@ -99,6 +99,9 @@ bool BraviaIpCtrl::setInput(const Input_t value)
   return validateMessage(bctl_input_success);
 }
  
+// TODO: Not really sure how I envisioned this working,
+// but the actual TCP command doesn't seem to work correctly
+// anywaay.  Must further investigate.
 short BraviaIpCtrl::getInput()
 {
   sendMessage(bctl_input_status);
