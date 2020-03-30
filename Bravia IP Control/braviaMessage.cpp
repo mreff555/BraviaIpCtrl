@@ -7,6 +7,7 @@
 //
 
 #include "braviaMessage.hpp"
+#include "log.hpp"
 #include <cstring>
 
 Datagram::Datagram(){}
@@ -43,6 +44,8 @@ Type Datagram::type()
   else
   {
     output = Type::NO_STATEMENT;
+    FILE_LOG(logWARNING) << "Output type returned NO_STATEMENT";
+
   }
   return output;
 }
@@ -89,6 +92,8 @@ Command Datagram::command()
   else if(!memcmp(&this->data + 3, "SCEN", 4))
   {
     output = Command::SCEN;
+    FILE_LOG(logWARNING) << "Output command returned NO_STATEMENT";
+
   }
   return output;
 }

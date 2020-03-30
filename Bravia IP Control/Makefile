@@ -14,5 +14,5 @@ $(OBJ): $(SRC)
 	$(CC) $(CFLAGS) -c $^
 
 clean:
-	rm $(OBJ) $(EXE)
+	rm $(OBJ)
   

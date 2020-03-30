@@ -13,11 +13,30 @@
 union Datagram
 {
   char data[24];
+  
   Datagram();
+  
   ~Datagram();
+  
+  // Feeds exactly and only 24 characters into
+  // the data array.  All subsequent commands
+  // will be conducted on this data.
   Datagram(const char* input);
+  
+  // Returns the message type.  COMMAND, ENQUIRY,
+  // ANSWER, or RESULT.  Void constructors or invalid
+  // entries will result in a return of NO_STATEMENT.
   Type type();
+  
+  // returns the command catagory. Void constructors or invalid
+  // entries will result in a return of NO_STATEMENT.
   Command command();
+  
+  // returns a value tyoe which is a union.  At minimum
+  // it will contain numeric and character representations
+  // of the value field.  The reason for the union is so
+  // that it can be utilized to display type specific data
+  // as well.
   Value value();
 };
 

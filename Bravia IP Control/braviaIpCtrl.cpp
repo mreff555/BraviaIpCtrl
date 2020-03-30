@@ -7,20 +7,22 @@
 //
 #include "braviaIpCtrl.hpp"
 #include "braviaMessage.hpp"
+#include "log.hpp"
+#include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <string>
-#include <ctime>
-#include <algorithm>
-#include <cstring>
 #include <thread>
-#include <chrono>
+#include <ctime>
  
 BraviaIpCtrl::BraviaIpCtrl(const char* ip)
+: host(gethostbyname(ip))
 {
-  host = gethostbyname(ip);
+  FILE_LOG(logFUNCTION) << "Entering";
   if(host == nullptr)
   {
-    perror("Invalid IP");
+    FILE_LOG(logERROR) << "invalid ip address " << ip;
+    // perror("Invalid IP");
     exit(EXIT_FAILURE);
   }
   memset(&hostAddr, 0, sizeof(hostAddr));
@@ -33,17 +35,18 @@ BraviaIpCtrl::BraviaIpCtrl(const char* ip)
    
   if((socket_fd = socket(AF_INET,SOCK_STREAM, 0)) < 0)
   {
-    perror("socket failed");
+    FILE_LOG(logERROR) << "Socket failed";
     exit(EXIT_FAILURE);
   }
   else
   {
     if(connect(socket_fd, (struct sockaddr *)&hostAddr, sizeof(struct sockaddr)))
     {
-      perror("connection failed failed");
+    FILE_LOG(logERROR) << "Connection failed";
       exit(EXIT_FAILURE);
     }
   }
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 BraviaIpCtrl::~BraviaIpCtrl()
@@ -54,13 +57,13 @@ BraviaIpCtrl::~BraviaIpCtrl()
 bool BraviaIpCtrl::powerOn()
 {
   sendMessage(bctl_power_on);
-  return validateMessage(bctl_power_on_act);
+  return validateMessage(bctl_power_success);
 }
  
 bool BraviaIpCtrl::powerOff()
 {
   sendMessage(bctl_power_off);
-  return validateMessage(bctl_power_off_act);
+  return validateMessage(bctl_power_success);
 }
  
 bool BraviaIpCtrl::powerStatus()
@@ -71,6 +74,7 @@ bool BraviaIpCtrl::powerStatus()
  
 bool BraviaIpCtrl::setVolume(const unsigned short value)
 {
+  FILE_LOG(logFUNCTION) << "Entering";
   char *command = nullptr;
   command = _setVolume(bctl_volume_set, value);
   if(command != nullptr)
@@ -78,18 +82,22 @@ bool BraviaIpCtrl::setVolume(const unsigned short value)
     sendMessage(command);
   }
   return validateMessage(bctl_volume_set_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 short BraviaIpCtrl::getVolume()
 {
+  FILE_LOG(logFUNCTION) << "Entering";
   sendMessage(bctl_volume_status);
   char charNum[4];
   memcpy(&charNum, &messages.back().datagram.data + 19, 4);
   return atoi(charNum);
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 bool BraviaIpCtrl::setInput(const Input_t value)
 {
+  FILE_LOG(logFUNCTION) << "Entering";
   char *command = nullptr;
   command = _setInput(bctl_input_set, value);
   if(command != nullptr)
@@ -97,6 +105,7 @@ bool BraviaIpCtrl::setInput(const Input_t value)
     sendMessage(command);
   }
   return validateMessage(bctl_input_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 // TODO: Not really sure how I envisioned this working,
@@ -104,12 +113,14 @@ bool BraviaIpCtrl::setInput(const Input_t value)
 // anywaay.  Must further investigate.
 short BraviaIpCtrl::getInput()
 {
+  FILE_LOG(logFUNCTION) << "Entering";
   sendMessage(bctl_input_status);
   char charNum[5];
   memset(&charNum, 0, 5);
   memcpy(&charNum, &messages.back().datagram.data, 4);
   //std::cout << charNum <<std::endl;
   return atoi(charNum);
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 void BraviaIpCtrl::wait(unsigned short seconds)
@@ -121,7 +132,7 @@ void BraviaIpCtrl::wait(unsigned short seconds)
  
 bool BraviaIpCtrl::sendMessage(const char *command)
 {
-  // std::cout << "sending: " << command << std::endl;
+  FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
   struct timeval tv;
   fd_set sockRead;
@@ -141,31 +152,32 @@ bool BraviaIpCtrl::sendMessage(const char *command)
       switch(selectStatus)
       {
         case -1:
-          perror("select()");
+            FILE_LOG(logERROR) << "select() returned -1";
           exit(EXIT_FAILURE);
           break;
           
         case 0:
+          FILE_LOG(logDEBUG) << "select() returned 0";
           break;
  
         default:
-         // printf("Ready for Reading\n");
           read(socket_fd, recBuffer, sizeof(recBuffer));
           
           struct Message msg;
           msg.timestamp = time(nullptr);
           memcpy(&msg.datagram.data, &recBuffer, sizeof(recBuffer));
           messages.push_back(msg);
-          // std::cout << "Received: " << msg.data << std::endl;
       }
-    }while (selectStatus > 0);
+    } while (selectStatus > 0);
     success = true;
   }
+  FILE_LOG(logFUNCTION) << "Exiting with result " << success;
   return success;
 }
  
 int BraviaIpCtrl::validateMessage(const char* expected_result)
 {
+  FILE_LOG(logFUNCTION) << "Entering";
   bool result = 0;
   std::vector<Message>::reverse_iterator it;
   for(it = messages.rbegin(); it != messages.rend(); ++it)
@@ -179,9 +191,9 @@ int BraviaIpCtrl::validateMessage(const char* expected_result)
        && expected.datagram.command() == it->datagram.command()
        && diffTime < msg_expire_age)
     {
-      //if(!memcmp(expected_result, ))
       result = 1;
-      // std::cout << "Reveived messgage " << it->data << " at " << ts << ", " << diffTime << " seconds ago." << std::endl;
+      FILE_LOG(logINFO) << "Reveived messgage " << it->datagram.data
+        << " within " << diffTime << " seconds";
       continue;
     }
     
@@ -189,21 +201,23 @@ int BraviaIpCtrl::validateMessage(const char* expected_result)
     else if(strcmp(it->datagram.data, bctl_volume_set_success) == 0 && diffTime >= msg_expire_age)
     {
       result = -1;
-      // std::cout << "Reveived expired messgage " << it->data << " at " << ts << ", " << diffTime << " seconds ago." << std::endl;
+      FILE_LOG(logWARNING) << "Reveived Expired messgage " << it->datagram.data
+        << " at " << diffTime << " seconds";
       continue;
     }
-    else
-    {
-      result = -2;
-      // std::cout << "No match:\n" << it->data << "\n" << expected_result << "\n";
-    }
+  }
+  if(!result)
+  {
+    FILE_LOG(logERROR) << "No match: " << it->datagram.data << " vs expected " << expected_result;
   }
   return result;
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
  
 char *BraviaIpCtrl::_setVolume(const char *input, unsigned short value)
 {
+     FILE_LOG(logFUNCTION) << "Entering";
    char *output = nullptr;
   if(value <= max_volume)
   {
@@ -216,6 +230,7 @@ char *BraviaIpCtrl::_setVolume(const char *input, unsigned short value)
     memcpy(output + (msgLen - 1) - len, numbers.c_str(), len);
   }
   return output;
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
  
 Message BraviaIpCtrl::getLastMessage()
@@ -231,6 +246,7 @@ Message BraviaIpCtrl::getLastMessage()
 
 char *BraviaIpCtrl::_setInput(const char *input, Input_t type)
 {
+  FILE_LOG(logFUNCTION) << "Entering";
    char *output = nullptr;
     int msgLen = 24;
     output = new char[msgLen];
@@ -263,5 +279,6 @@ char *BraviaIpCtrl::_setInput(const char *input, Input_t type)
         memset(output + 22, '1', sizeof(char));
         break;
     }
+  FILE_LOG(logFUNCTION) << "Exiting";
   return output;
 }

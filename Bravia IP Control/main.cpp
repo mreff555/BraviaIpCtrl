@@ -6,12 +6,17 @@
 //  Copyright © 2020 Dan Feerst. All rights reserved.
 //
 
+#define MAX_LOG_LEVEL "INFO"
+
 #include "braviaIpCtrl.hpp"
+#include "log.hpp"
 #include <iostream>
 #include <cstring>
 
 int main(int argc, const char * argv[])
 {
+  FILELog::ReportingLevel() = FILELog::FromString(MAX_LOG_LEVEL);
+  FILE_LOG(logFUNCTION) << "Entering";
   if(argc < 1 || argc > 4)
   {
     std::cout << "Usage: bctl [address] [command] [value]\n";
@@ -58,7 +63,7 @@ int main(int argc, const char * argv[])
       }
       else
       {
-        // out of range error handling
+        FILE_LOG(logERROR) << "Value out of range (0 - 100), received: " << value;
       }
     }
     
@@ -70,12 +75,26 @@ int main(int argc, const char * argv[])
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
+    else if(!strcmp(argv[2], "input") && argv[3])
+    {
+      //unsigned short value = atoi(argv[3]);
+      Input_t value = (Input_t)atoi(argv[3]);
+      if(value >= INPUT_HDMI_1 && value <= INPUT_SCR_MIRROR_1)
+      {
+        bc.setInput(value);
+      }
+      else
+      {
+        FILE_LOG(logERROR) << "Input value out of range (1-4), received " << value;
+      }
+      
+    }
     
     // ******* END *******
     
     else
     {
-      // ???
+      FILE_LOG(logERROR) << "Unknown parameter: " << argv[2] << " " << argv[3];
     }
   }
   
@@ -101,5 +120,6 @@ int main(int argc, const char * argv[])
 //  bc.setVolume(20);
 //  bc.wait(2);
   
+  FILE_LOG(logFUNCTION) << "Exiting";
   return 0;
 }
