@@ -6,7 +6,7 @@
 //  Copyright © 2020 Dan Feerst. All rights reserved.
 //
 #include "braviaIpCtrl.hpp"
-#include "braviaMessage.hpp"
+//#include "braviaMessage.hpp"
 #include "log.hpp"
 #include <algorithm>
 #include <chrono>
@@ -134,7 +134,6 @@ bool BraviaIpCtrl::sendMessage(const char *command)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  struct timeval tv;
   fd_set sockRead;
   int selectStatus;
    
@@ -145,9 +144,7 @@ bool BraviaIpCtrl::sendMessage(const char *command)
     {
       FD_ZERO(&sockRead);
       FD_SET(socket_fd, &sockRead);
-      tv.tv_sec = 2;
-      tv.tv_usec = 500000;
-      selectStatus = select(socket_fd + 1, &sockRead, NULL, NULL, &tv);
+      selectStatus = select(socket_fd + 1, &sockRead, NULL, NULL, &select_timeout);
        
       switch(selectStatus)
       {
@@ -192,7 +189,7 @@ int BraviaIpCtrl::validateMessage(const char* expected_result)
        && diffTime < msg_expire_age)
     {
       result = 1;
-      FILE_LOG(logINFO) << "Reveived messgage " << it->datagram.data
+      FILE_LOG(logINFO) << "Reveived messgage " << nullterm(it->datagram.data)
         << " within " << diffTime << " seconds";
       continue;
     }
@@ -201,14 +198,14 @@ int BraviaIpCtrl::validateMessage(const char* expected_result)
     else if(strcmp(it->datagram.data, bctl_volume_set_success) == 0 && diffTime >= msg_expire_age)
     {
       result = -1;
-      FILE_LOG(logWARNING) << "Reveived Expired messgage " << it->datagram.data
+      FILE_LOG(logWARNING) << "Reveived Expired messgage " << nullterm(it->datagram.data)
         << " at " << diffTime << " seconds";
       continue;
     }
   }
   if(!result)
   {
-    FILE_LOG(logERROR) << "No match: " << it->datagram.data << " vs expected " << expected_result;
+    FILE_LOG(logERROR) << "No match: " << nullterm(it->datagram.data) << " vs expected " << expected_result;
   }
   return result;
   FILE_LOG(logFUNCTION) << "Exiting";
