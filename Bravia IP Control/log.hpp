@@ -16,16 +16,16 @@
 // Supported Log Levels.
 enum LogLevel
 {
-  logERROR = 0,
-  logWARNING,
-  logINFO,
-  logFUNCTION,
-  logDEBUG,
-  logDEBUG1,
-  logDEBUG2,
-  logDEBUG3,
-  logDEBUG4,
-  logTRACE
+  logERROR       = 0,
+  logWARNING     = 1, 
+  logINFO        = 2,
+  logFUNCTION    = 3,
+  logDEBUG       = 4,
+  logDEBUG1      = 5,
+  logDEBUG2      = 6,
+  logDEBUG3      = 7,
+  logDEBUG4      = 8,
+  logTRACE       = 9
 };
   
 const int LOG_MAX_LEVEL = logTRACE;
