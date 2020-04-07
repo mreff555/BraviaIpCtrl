@@ -14,38 +14,17 @@
 #include <thread>
 #include <ctime>
  
-BraviaIpCtrl::BraviaIpCtrl(const char* ip)
-: host(gethostbyname(ip))
+BraviaIpCtrl::BraviaIpCtrl(const char* addr)
 {
-  FILE_LOG(logFUNCTION) << "Entering";
-  if(host == nullptr)
-  {
-    FILE_LOG(logERROR) << "invalid ip address " << ip;
-    // perror("Invalid IP");
-    exit(EXIT_FAILURE);
-  }
-  memset(&hostAddr, 0, sizeof(hostAddr));
-  memset(&sendBuffer, 0, sizeof(sendBuffer));
-  memset(&recBuffer, 0, sizeof(recBuffer));
-  hostAddr.sin_family = AF_INET;
-  hostAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  hostAddr.sin_addr.s_addr = ((struct in_addr*)(host->h_addr))->s_addr;
-  hostAddr.sin_port = htons(bravia_port);
-   
-  if((socket_fd = socket(AF_INET,SOCK_STREAM, 0)) < 0)
-  {
-    FILE_LOG(logERROR) << "Socket failed";
-    exit(EXIT_FAILURE);
-  }
-  else
-  {
-    if(connect(socket_fd, (struct sockaddr *)&hostAddr, sizeof(struct sockaddr)))
+    if(addr == nullptr)
     {
-    FILE_LOG(logERROR) << "Connection failed";
+      FILE_LOG(logERROR) << "invalid ip address " << addr;
       exit(EXIT_FAILURE);
     }
-  }
-  FILE_LOG(logFUNCTION) << "Exiting";
+    else
+    {
+      init(addr);
+    }
 }
  
 BraviaIpCtrl::~BraviaIpCtrl()
@@ -128,6 +107,45 @@ void BraviaIpCtrl::wait(unsigned short seconds)
 }
  
 // Private
+
+bool BraviaIpCtrl::init(const char* addr)
+{
+  bool success = true;
+  FILE_LOG(logFUNCTION) << "Entering";
+  
+  // TODO: Debugger is calling EXC_BAD_ALLOC errors
+  // A known thread safety issue with gethostbyname(...)  GNU extensions
+  // have a modified gethostbyname_r(...) which may fix this, but Darwin
+  // does not implement this.  A local file with have to be created to
+  // implement the safe code. Preprocessor logic could be used to determine
+  // which one is called
+  host = gethostbyname(addr);
+  memset(&hostAddr, 0, sizeof(hostAddr));
+  memset(&sendBuffer, 0, sizeof(sendBuffer));
+  memset(&recBuffer, 0, sizeof(recBuffer));
+  hostAddr.sin_family = AF_INET;
+  hostAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+  hostAddr.sin_addr.s_addr = ((struct in_addr*)(host->h_addr))->s_addr;
+  hostAddr.sin_port = htons(bravia_port);
+  
+  if((socket_fd = socket(AF_INET,SOCK_STREAM, 0)) < 0)
+  {
+    FILE_LOG(logERROR) << "Socket failed";
+    success = false;
+    exit(EXIT_FAILURE);
+  }
+  else
+  {
+    if(connect(socket_fd, (struct sockaddr *)&hostAddr, sizeof(struct sockaddr)))
+    {
+      FILE_LOG(logERROR) << "Connection failed";
+      success = false;
+      exit(EXIT_FAILURE);
+    }
+  }
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+}
  
 bool BraviaIpCtrl::sendMessage(const char *command)
 {

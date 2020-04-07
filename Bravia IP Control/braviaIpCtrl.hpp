@@ -44,6 +44,8 @@ class BraviaIpCtrl
   
   private:
   
+  bool init(const char*);
+  
   bool sendMessage(const char*);
   
   int validateMessage(const char*);
