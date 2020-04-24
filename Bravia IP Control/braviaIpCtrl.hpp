@@ -40,6 +40,14 @@ class BraviaIpCtrl
   
   void wait(unsigned short);
   
+  // ircc commands
+  
+  bool display();
+  
+  bool home();
+  
+  bool hdmi1();
+  
   Message getLastMessage();
   
   private:
@@ -54,6 +62,8 @@ class BraviaIpCtrl
   
   char *_setInput(const char*, Input_t);
   
+  char *_getIrccCmd(const unsigned short);
+  
   struct sockaddr_in hostAddr;
   struct hostent *host;
 
@@ -65,7 +75,7 @@ class BraviaIpCtrl
   std::vector<Message> messages;
   
   BraviaIpCtrl *bc;
-  
+    
 };
 
 #endif /* braviaIpCtl_hpp */

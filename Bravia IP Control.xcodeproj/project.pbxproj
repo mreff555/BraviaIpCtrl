@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8E32DD53244BC65C00E7303C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8E8684C9242996470067169E /* log.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = log.hpp; sourceTree = "<group>"; };
 		8E87AE99240F22670098C397 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8E87AE9A240F2E450098C397 /* braviaIpCtrl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = braviaIpCtrl.cpp; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 		8EEA6992240BE2FE005E1905 = {
 			isa = PBXGroup;
 			children = (
+				8E32DD53244BC65C00E7303C /* .gitignore */,
 				8EEA699D240BE2FE005E1905 /* Bravia IP Control */,
 				8EEA699C240BE2FE005E1905 /* Products */,
 			);

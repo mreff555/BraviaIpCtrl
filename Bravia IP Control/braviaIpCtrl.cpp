@@ -106,6 +106,41 @@ void BraviaIpCtrl::wait(unsigned short seconds)
   std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
  
+// ircc commands
+
+bool BraviaIpCtrl::display()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  char *tmpCmd = _getIrccCmd(5);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+}
+
+bool BraviaIpCtrl::home()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  char *tmpCmd = _getIrccCmd(6);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+}
+
+bool BraviaIpCtrl::hdmi1()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  char *tmpCmd = _getIrccCmd(124);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+}
+
 // Private
 
 bool BraviaIpCtrl::init(const char* addr)
@@ -151,39 +186,46 @@ bool BraviaIpCtrl::sendMessage(const char *command)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  fd_set sockRead;
-  int selectStatus;
-   
-  memcpy(&sendBuffer, command, sizeof(sendBuffer));
-  if((write(socket_fd, sendBuffer, strlen(sendBuffer))) > 0)
+  if(!command)
   {
-    do
+    FILE_LOG(logERROR) << "Null Message";
+  }
+  else
+  {
+    fd_set sockRead;
+    int selectStatus;
+     
+    memcpy(&sendBuffer, command, sizeof(sendBuffer));
+    if((write(socket_fd, sendBuffer, strlen(sendBuffer))) > 0)
     {
-      FD_ZERO(&sockRead);
-      FD_SET(socket_fd, &sockRead);
-      selectStatus = select(socket_fd + 1, &sockRead, NULL, NULL, &select_timeout);
-       
-      switch(selectStatus)
+      do
       {
-        case -1:
-            FILE_LOG(logERROR) << "select() returned -1";
-          exit(EXIT_FAILURE);
-          break;
-          
-        case 0:
-          FILE_LOG(logDEBUG) << "select() returned 0";
-          break;
- 
-        default:
-          read(socket_fd, recBuffer, sizeof(recBuffer));
-          
-          struct Message msg;
-          msg.timestamp = time(nullptr);
-          memcpy(&msg.datagram.data, &recBuffer, sizeof(recBuffer));
-          messages.push_back(msg);
-      }
-    } while (selectStatus > 0);
-    success = true;
+        FD_ZERO(&sockRead);
+        FD_SET(socket_fd, &sockRead);
+        selectStatus = select(socket_fd + 1, &sockRead, NULL, NULL, &select_timeout);
+         
+        switch(selectStatus)
+        {
+          case -1:
+              FILE_LOG(logERROR) << "select() returned -1";
+            exit(EXIT_FAILURE);
+            break;
+            
+          case 0:
+            FILE_LOG(logDEBUG) << "select() returned 0";
+            break;
+   
+          default:
+            read(socket_fd, recBuffer, sizeof(recBuffer));
+            
+            struct Message msg;
+            msg.timestamp = time(nullptr);
+            memcpy(&msg.datagram.data, &recBuffer, sizeof(recBuffer));
+            messages.push_back(msg);
+        }
+      } while (selectStatus > 0);
+      success = true;
+    }
   }
   FILE_LOG(logFUNCTION) << "Exiting with result " << success;
   return success;
@@ -252,8 +294,13 @@ Message BraviaIpCtrl::getLastMessage()
   // Replacing the last character of
   // the message, which is a carrige return
   // with a null terminator for printing purposes
-  Message m = messages.back();
-  m.datagram.data[23] = '\0';
+  
+  Message m = {0};
+  if(messages.size())
+  {
+    m = messages.back();
+    m.datagram.data[23] = '\0';
+  }
   return m;
 }
 
@@ -295,4 +342,23 @@ char *BraviaIpCtrl::_setInput(const char *input, Input_t type)
     }
   FILE_LOG(logFUNCTION) << "Exiting";
   return output;
+}
+
+char * BraviaIpCtrl::_getIrccCmd(const unsigned short num)
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  char *output = nullptr;
+
+  if(num > 0 || num <= 130)
+  {
+    int msgLen = 24;
+    output = new char[msgLen];
+    memset(output, 0, sizeof(*output));
+    memcpy(output, bctl_ircc_success, msgLen);
+    std::string numString = std::to_string(num);
+    size_t strLen = numString.length();
+    memcpy(output + (msgLen - 1 - strLen), numString.c_str(), strLen);
+  }
+  return output;
+  FILE_LOG(logFUNCTION) << "Exiting";
 }

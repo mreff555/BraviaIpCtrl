@@ -6,7 +6,7 @@
 //  Copyright © 2020 Dan Feerst. All rights reserved.
 //
 
-#define MAX_LOG_LEVEL "INFO"
+#define MAX_LOG_LEVEL "DEBUG"
 
 #include "braviaIpCtrl.hpp"
 #include "log.hpp"
@@ -23,20 +23,23 @@ int main(int argc, const char * argv[])
   }
   else
   {
-    // ******* Power *******
     BraviaIpCtrl bc(argv[1]);
+    
+    // ******* Power *******
     if(!strcmp(argv[2], "power") && !argv[3])
     {
       bc.powerStatus();
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
+    
     else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "on"))
     {
       bc.powerOn();
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
+    
     else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "off"))
     {
       bc.powerOff();
@@ -44,14 +47,21 @@ int main(int argc, const char * argv[])
       std::cout << message.datagram.data <<std::endl;
     }
     
+    else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "status"))
+    {
+      bc.powerStatus();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
     // ******* Volume *******
-
     else if(!strcmp(argv[2], "volume") && !argv[3])
     {
       bc.getVolume();
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
+    
     else if(!strcmp(argv[2], "volume") && argv[3])
     {
       unsigned short value = atoi(argv[3]);
@@ -68,13 +78,13 @@ int main(int argc, const char * argv[])
     }
     
     // ******* MODE *******
-
     else if(!strcmp(argv[2], "input") && !argv[3])
     {
       bc.getInput();
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
+    
     else if(!strcmp(argv[2], "input") && argv[3])
     {
       //unsigned short value = atoi(argv[3]);
@@ -90,8 +100,29 @@ int main(int argc, const char * argv[])
       
     }
     
-    // ******* END *******
+    // ******* IRCC *******
+    else if(!strcmp(argv[2], "display") && !argv[3])
+    {
+      bc.display();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+
+    else if(!strcmp(argv[2], "home") && !argv[3])
+    {
+      bc.home();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
     
+    else if(!strcmp(argv[2], "hdmi1") && !argv[3])
+    {
+      bc.hdmi1();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    // ******* END *******
     else
     {
       FILE_LOG(logERROR) << "Unknown parameter: " << argv[2] << " " << argv[3];
