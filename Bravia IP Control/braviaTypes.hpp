@@ -11,6 +11,7 @@
 #include <ctime>
 #include <cstring>
 #include <cstdlib>
+#include "log.hpp"
 
 enum Input_t
 {
@@ -59,9 +60,9 @@ union Value
   unsigned short number;
 };
 
-static const char *bctl_ircc_set               = "*SCIRCCXXXXXXXXXXXXXXXX\n";
+static const char *bctl_ircc_default               = "*SCIRCC0000000000000000\n";
 
-static const char *bctl_ircc_success           = "*SCIRCC0000000000000000\n";
+static const char *bctl_ircc_success           = "*SAIRCC0000000000000000\n";
 
 static const char *bctl_ircc_fail              = "*SCIRCCFFFFFFFFFFFFFFFF\n";
   
@@ -279,6 +280,25 @@ static const inline char* nullterm(const char* input)
   memcpy(output, input, 24);
   memset(output + 23, '\0', 1);
   return output;
+}
+
+static const char * iircCommand(const unsigned short num)
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  char *output = nullptr;
+
+  if(num > 0 || num <= 130)
+  {
+    int msgLen = 24;
+    output = new char[msgLen];
+    memset(output, 0, sizeof(*output));
+    memcpy(output, bctl_ircc_default, msgLen);
+    std::string numString = std::to_string(num);
+    size_t strLen = numString.length();
+    memcpy(output + (msgLen - 1 - strLen), numString.c_str(), strLen);
+  }
+  return output;
+  FILE_LOG(logFUNCTION) << "Exiting";
 }
 
 #endif /* braviaTypes_h */

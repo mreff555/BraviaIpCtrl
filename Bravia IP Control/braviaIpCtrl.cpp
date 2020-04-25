@@ -100,7 +100,22 @@ short BraviaIpCtrl::getInput()
   return atoi(charNum);
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
+
+bool BraviaIpCtrl::sendIircCmd(const unsigned short value)
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  if(value >= 128 && value > 0)
+  {
+    const char *tmpCmd = iircCommand(value);
+    sendMessage(tmpCmd);
+    FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+    validateMessage(bctl_ircc_success);
+    FILE_LOG(logFUNCTION) << "Exiting";
+  }
+  return success;
+}
+
 void BraviaIpCtrl::wait(unsigned short seconds)
 {
   std::this_thread::sleep_for(std::chrono::seconds(seconds));
@@ -112,9 +127,10 @@ bool BraviaIpCtrl::display()
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  char *tmpCmd = _getIrccCmd(5);
+  const char *tmpCmd = iircCommand(5);
   sendMessage(tmpCmd);
   FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
 }
@@ -123,9 +139,10 @@ bool BraviaIpCtrl::home()
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  char *tmpCmd = _getIrccCmd(6);
+  const char *tmpCmd = iircCommand(6);
   sendMessage(tmpCmd);
   FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
 }
@@ -134,9 +151,10 @@ bool BraviaIpCtrl::hdmi1()
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  char *tmpCmd = _getIrccCmd(124);
+  const char *tmpCmd = iircCommand(125);
   sendMessage(tmpCmd);
   FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
 }
@@ -234,7 +252,7 @@ bool BraviaIpCtrl::sendMessage(const char *command)
 int BraviaIpCtrl::validateMessage(const char* expected_result)
 {
   FILE_LOG(logFUNCTION) << "Entering";
-  bool result = 0;
+  bool result = false;
   std::vector<Message>::reverse_iterator it;
   for(it = messages.rbegin(); it != messages.rend(); ++it)
   {
@@ -342,23 +360,4 @@ char *BraviaIpCtrl::_setInput(const char *input, Input_t type)
     }
   FILE_LOG(logFUNCTION) << "Exiting";
   return output;
-}
-
-char * BraviaIpCtrl::_getIrccCmd(const unsigned short num)
-{
-  FILE_LOG(logFUNCTION) << "Entering";
-  char *output = nullptr;
-
-  if(num > 0 || num <= 130)
-  {
-    int msgLen = 24;
-    output = new char[msgLen];
-    memset(output, 0, sizeof(*output));
-    memcpy(output, bctl_ircc_success, msgLen);
-    std::string numString = std::to_string(num);
-    size_t strLen = numString.length();
-    memcpy(output + (msgLen - 1 - strLen), numString.c_str(), strLen);
-  }
-  return output;
-  FILE_LOG(logFUNCTION) << "Exiting";
 }

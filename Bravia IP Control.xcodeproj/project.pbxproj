@@ -71,15 +71,15 @@
 			isa = PBXGroup;
 			children = (
 				8EE549BD2436BEDC006DDAA4 /* constants.hpp */,
-				8EEA699E240BE2FE005E1905 /* main.cpp */,
-				8E87AE9D241AEDC30098C397 /* braviaIpCtrl_IF.hpp */,
-				8E87AE99240F22670098C397 /* Makefile */,
-				8E87AE9A240F2E450098C397 /* braviaIpCtrl.cpp */,
-				8E87AE9B240F2E450098C397 /* braviaIpCtrl.hpp */,
-				8E87AE9E241AEF670098C397 /* braviaTypes.hpp */,
-				8E87AE9F241E999C0098C397 /* braviaMessage.cpp */,
-				8E87AEA0241E999C0098C397 /* braviaMessage.hpp */,
 				8E8684C9242996470067169E /* log.hpp */,
+				8E87AE9E241AEF670098C397 /* braviaTypes.hpp */,
+				8E87AEA0241E999C0098C397 /* braviaMessage.hpp */,
+				8E87AE9B240F2E450098C397 /* braviaIpCtrl.hpp */,
+				8E87AE9A240F2E450098C397 /* braviaIpCtrl.cpp */,
+				8E87AE9F241E999C0098C397 /* braviaMessage.cpp */,
+				8EEA699E240BE2FE005E1905 /* main.cpp */,
+				8E87AE99240F22670098C397 /* Makefile */,
+				8E87AE9D241AEDC30098C397 /* braviaIpCtrl_IF.hpp */,
 			);
 			path = "Bravia IP Control";
 			sourceTree = "<group>";

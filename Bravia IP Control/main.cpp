@@ -6,7 +6,7 @@
 //  Copyright © 2020 Dan Feerst. All rights reserved.
 //
 
-#define MAX_LOG_LEVEL "DEBUG"
+#define MAX_LOG_LEVEL "INFO"
 
 #include "braviaIpCtrl.hpp"
 #include "log.hpp"

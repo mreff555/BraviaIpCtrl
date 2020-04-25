@@ -186,7 +186,7 @@ inline std::string LogNowTime();
 #define FILE_LOG(level) \
     if (level > LOG_MAX_LEVEL); \
     else if (level > FILELog::ReportingLevel() || !Output2FILE::Stream()) ; \
-    else FILELog().Get(level) << "bctl " << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << " "
+    else FILELog().Get(level) << "bctl " << __FILE__ << " " << __FUNCTION__ << " ln: " << __LINE__ << " "
 
 
     inline void LogSetLevel(const std::string& levelName) { FILELog::ReportingLevel() = FILELog::FromString(levelName); }

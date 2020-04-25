@@ -62,9 +62,10 @@ class BraviaIpCtrl
   
   char *_setInput(const char*, Input_t);
   
-  char *_getIrccCmd(const unsigned short);
-  
+  bool sendIircCmd(const unsigned short value);
+
   struct sockaddr_in hostAddr;
+  
   struct hostent *host;
 
   char sendBuffer[24];
