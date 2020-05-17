@@ -12,17 +12,19 @@
 #include "log.hpp"
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 
 int main(int argc, const char * argv[])
 {
   FILELog::ReportingLevel() = FILELog::FromString(MAX_LOG_LEVEL);
-  FILE_LOG(logFUNCTION) << "Entering";
-  if(argc < 1 || argc > 4)
+  FILE_LOG(logTRACE) << "argc = " << argc;
+
+  
+  if(argc > 2  && argc < 5)
   {
-    std::cout << "Usage: bctl [address] [command] [value]\n";
-  }
-  else
-  {
+    std::cout << argc <<std::endl;
+    
+    FILE_LOG(logFUNCTION) << "Entering";
     BraviaIpCtrl bc(argv[1]);
     
     // ******* Power *******
@@ -127,6 +129,28 @@ int main(int argc, const char * argv[])
     {
       FILE_LOG(logERROR) << "Unknown parameter: " << argv[2] << " " << argv[3];
     }
+      FILE_LOG(logFUNCTION) << "Exiting";
+  }
+  else
+  {
+    // TODO: There has got to be a way to use a macro to clean up the tabs an backspaces
+    std::cout << "Usage: bctl [address] [command] [value]\n";
+    std::cout << "\nADDRESS:\n";
+    std::cout << std::setw(2) << "" << "The ip address of the device.\n";
+    std::cout << "\nCOMMAND / VALUE:\n";
+    std::cout << std::setw(2) << "" << "power" << std::endl;
+    std::cout << std::setw(4) << "" << "<no argument>" << std::setw(33) << "Power status message" << std::endl;
+    std::cout << std::setw(4) << "" <<  "status"       << std::setw(40) << "Power status message" << std::endl;
+    std::cout << std::setw(4) << "" <<  "on"           << std::setw(37) << "Turn power on" << std::endl;
+    std::cout << std::setw(4) << "" <<  "off"          << std::setw(37) << "Turn power off" << std::endl;
+    std::cout << std::setw(2) << "" << "volume" << std::endl;
+    std::cout << std::setw(4) << "" << "<no argument>" << std::setw(34) << "Volume status message" << std::endl;
+    std::cout << std::setw(4) << "" << "status"        << std::setw(41) << "Volume status message" << std::endl;
+    std::cout << std::setw(4) << "" << "<value>"       << std::setw(42) << "Integral value, 0 - 100" << std::endl;
+
+    // TODO: The input values are going to need to be reworked.  They are relying on enum values.  This is fine internally
+    // but does not make for a intuitive API.  Some type of string conversion will be neccessary.
+    
   }
   
   //BraviaIpCtrl bc(tvIp);
@@ -150,7 +174,5 @@ int main(int argc, const char * argv[])
 //  bc.wait(2);
 //  bc.setVolume(20);
 //  bc.wait(2);
-  
-  FILE_LOG(logFUNCTION) << "Exiting";
   return 0;
 }
