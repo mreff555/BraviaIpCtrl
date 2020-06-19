@@ -28,7 +28,7 @@ enum LogLevel
   logTRACE       = 9
 };
   
-const int LOG_MAX_LEVEL = logTRACE;
+const int LOG_MAX_LEVEL = logWARNING;
 
 inline std::string LogNowTime();
 

@@ -45,9 +45,35 @@ class BraviaIpCtrl
   bool display();
   
   bool home();
-  
+
+  bool num1();
+
+  bool num2();
+
+  bool num3();
+
+  bool num4();
+
+  bool num5();
+
+  bool num6();
+
+  bool num7();
+
+  bool num8();
+
+  bool num9();
+
+  bool num0();
+
   bool hdmi1();
   
+  bool hdmi2();
+
+  bool hdmi3();
+
+  bool hdmi4(); 
+
   Message getLastMessage();
   
   private:
