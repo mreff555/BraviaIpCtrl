@@ -147,6 +147,71 @@ bool BraviaIpCtrl::home()
   return success;
 }
 
+bool BraviaIpCtrl::up()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  const char *tmpCmd = iircCommand(9);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+
+};
+
+bool BraviaIpCtrl::down()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  const char *tmpCmd = iircCommand(10);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+
+};
+
+bool BraviaIpCtrl::right()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  const char *tmpCmd = iircCommand(11);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+
+};
+
+bool BraviaIpCtrl::left()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  const char *tmpCmd = iircCommand(12);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+
+};
+
+bool BraviaIpCtrl::confirm()
+{
+  FILE_LOG(logFUNCTION) << "Entering";
+  bool success = false;
+  const char *tmpCmd = iircCommand(13);
+  sendMessage(tmpCmd);
+  FILE_LOG(logDEBUG) << "Sent message: " << tmpCmd;
+  validateMessage(bctl_ircc_success);
+  FILE_LOG(logFUNCTION) << "Exiting";
+  return success;
+
+};
+
 bool BraviaIpCtrl::num1()
 {
   FILE_LOG(logFUNCTION) << "Entering";

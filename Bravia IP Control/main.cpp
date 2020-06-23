@@ -8,7 +8,13 @@
 
 #define MAX_LOG_LEVEL "INFO"
 
-#include "braviaIpCtrl.hpp"
+// TODO: The goal here is to seperate braviaIpCtrl from the UI.
+// BraviaCommands is an interface created for this purpose, but I still need
+// to call the constructor at some point.  Not really sure the best way to implement
+// this, so for now both stay
+#include "braviaIpCtrl.hpp"         // Temporary
+#include "braviaCommands.hpp"       // The actual API
+
 #include "log.hpp"
 #include <iostream>
 #include <cstring>
@@ -113,6 +119,41 @@ int main(int argc, const char * argv[])
     else if(!strcmp(argv[2], "home") && !argv[3])
     {
       bc.home();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    else if(!strcmp(argv[2], "up") && !argv[3])
+    {
+      bc.up();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    else if(!strcmp(argv[2], "down") && !argv[3])
+    {
+      bc.down();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    else if(!strcmp(argv[2], "right") && !argv[3])
+    {
+      bc.right();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    else if(!strcmp(argv[2], "left") && !argv[3])
+    {
+      bc.left();
+      Message message = bc.getLastMessage();
+      std::cout << message.datagram.data <<std::endl;
+    }
+    
+    else if(!strcmp(argv[2], "confirm") && !argv[3])
+    {
+      bc.confirm();
       Message message = bc.getLastMessage();
       std::cout << message.datagram.data <<std::endl;
     }
@@ -249,7 +290,12 @@ int main(int argc, const char * argv[])
     std::cout << "\n";
     std::cout << "IIRC Commands (No values)\n";
     std::cout << std::setw(2) << "" << "display"       << std::setw(42) << "Description here\n";
-    std::cout << std::setw(2) << "" << "home"          << std::setw(42) << "Return to home screen\n";
+    std::cout << std::setw(2) << "" << "home"          << std::setw(42) << "Return to the home menu\n";
+    std::cout << std::setw(2) << "" << "up"            << std::setw(42) << "up\n";
+    std::cout << std::setw(2) << "" << "down"          << std::setw(42) << "down\n";
+    std::cout << std::setw(2) << "" << "right"         << std::setw(42) << "right\n";
+    std::cout << std::setw(2) << "" << "left"          << std::setw(42) << "left\n";
+    std::cout << std::setw(2) << "" << "confirm"       << std::setw(42) << "confirm / ok\n";
     std::cout << std::setw(2) << "" << "hdmi1"         << std::setw(42) << "Switch to HDMI 1\n";
 
     // TODO: The input values are going to need to be reworked.  They are relying on enum values.  This is fine internally

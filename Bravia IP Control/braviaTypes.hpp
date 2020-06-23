@@ -60,7 +60,7 @@ union Value
   unsigned short number;
 };
 
-static const char *bctl_ircc_default               = "*SCIRCC0000000000000000\n";
+static const char *bctl_ircc_default           = "*SCIRCC0000000000000000\n";
 
 static const char *bctl_ircc_success           = "*SAIRCC0000000000000000\n";
 

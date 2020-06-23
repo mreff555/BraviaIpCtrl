@@ -25,6 +25,7 @@ Datagram::Datagram(const char* input)
 Type Datagram::type()
 {
   Type output = Type::NO_STATEMENT;
+
   if(this->data[2] == 'C')
   {
     output = Type::COMMAND;
@@ -93,7 +94,6 @@ Command Datagram::command()
   {
     output = Command::SCEN;
     FILE_LOG(logWARNING) << "Output command returned NO_STATEMENT";
-
   }
   return output;
 }

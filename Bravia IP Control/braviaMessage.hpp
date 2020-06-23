@@ -19,8 +19,7 @@ union Datagram
   ~Datagram();
   
   // Feeds exactly and only 24 characters into
-  // the data array.  All subsequent commands
-  // will be conducted on this data.
+  // the data array.
   Datagram(const char* input);
   
   // Returns the message type.  COMMAND, ENQUIRY,

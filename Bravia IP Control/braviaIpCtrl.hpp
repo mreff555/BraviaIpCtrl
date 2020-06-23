@@ -9,6 +9,7 @@
 #ifndef braviaIpCtl_hpp
 #define braviaIpCtl_hpp
 
+#include "braviaCommands.hpp"
 #include "braviaMessage.hpp"
 #include "constants.hpp"
 #include <netdb.h>
@@ -16,7 +17,7 @@
 #include <unistd.h>
 #include <vector>
 
-class BraviaIpCtrl
+class BraviaIpCtrl : public BraviaCommands
 {
   public:
 
@@ -45,6 +46,16 @@ class BraviaIpCtrl
   bool display();
   
   bool home();
+
+  bool up();
+
+  bool down();
+
+  bool right();
+
+  bool left();
+
+  bool confirm();
 
   bool num1();
 

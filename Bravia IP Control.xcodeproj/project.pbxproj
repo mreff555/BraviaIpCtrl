@@ -110,7 +110,7 @@
 		8EEA6993240BE2FE005E1905 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "Dan Feerst";
 				TargetAttributes = {
 					8EEA699A240BE2FE005E1905 = {
@@ -262,6 +262,7 @@
 		8EEA69A3240BE2FE005E1905 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QUKUQ89R7J;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -272,6 +273,7 @@
 		8EEA69A4240BE2FE005E1905 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QUKUQ89R7J;
 				ENABLE_HARDENED_RUNTIME = YES;
