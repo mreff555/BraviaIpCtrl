@@ -1,6 +1,7 @@
 # Objects
 *.o
 *.dSYM
+*.swp
 
 # Executibles
 bctl

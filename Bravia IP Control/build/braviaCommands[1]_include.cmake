@@ -1,0 +1,5 @@
+if(EXISTS "/Users/mreff555/src/BraviaIpCtrl/Bravia IP Control/build/braviaCommands[1]_tests.cmake")
+  include("/Users/mreff555/src/BraviaIpCtrl/Bravia IP Control/build/braviaCommands[1]_tests.cmake")
+else()
+  add_test(braviaCommands_NOT_BUILT braviaCommands_NOT_BUILT)
+endif()
