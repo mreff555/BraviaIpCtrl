@@ -23,75 +23,73 @@
 class BraviaIpCtrl : public BraviaCommands
 {
   public:
-
   BraviaIpCtrl(const char*);
 
-  ~BraviaIpCtrl();
+  virtual ~BraviaIpCtrl();
   
-  bool powerOn();
+  bool powerOn() override;
   
-  bool powerOff();
+  bool powerOff() override;
   
-  bool powerStatus();
+  bool powerStatus() override;
   
-  bool setVolume(const unsigned short);
+  bool setVolume(const unsigned short) override;
   
-  short getVolume();
+  short getVolume() override;
   
-  bool setInput(const Input_t);
+  bool setInput(const Input_t) override;
   
-  short getInput();
+  short getInput() override;
   
-  void wait(unsigned short);
+  void wait(unsigned short) override;
   
   // ircc commands
   
-  bool display();
+  bool display() override;
   
-  bool home();
+  bool home() override;
 
-  bool up();
+  bool up() override;
 
-  bool down();
+  bool down() override;
 
-  bool right();
+  bool right() override;
 
-  bool left();
+  bool left() override;
 
-  bool confirm();
+  bool confirm() override;
 
-  bool num1();
+  bool num1() override;
 
-  bool num2();
+  bool num2() override;
 
-  bool num3();
+  bool num3() override;
 
-  bool num4();
+  bool num4() override;
 
-  bool num5();
+  bool num5() override;
 
-  bool num6();
+  bool num6() override;
 
-  bool num7();
+  bool num7() override;
 
-  bool num8();
+  bool num8() override;
 
-  bool num9();
+  bool num9() override;
 
-  bool num0();
+  bool num0() override;
 
-  bool hdmi1();
+  bool hdmi1() override;
   
-  bool hdmi2();
+  bool hdmi2() override;
 
-  bool hdmi3();
+  bool hdmi3() override;
 
-  bool hdmi4(); 
+  bool hdmi4() override; 
 
-  Message getLastMessage();
+  Message getLastMessage() override;
   
   private:
-  
   bool init(const char*);
   
   bool sendMessage(const char*);

@@ -290,7 +290,7 @@ static const char * iircCommand(const unsigned short num)
   FILE_LOG(logFUNCTION) << "Entering";
   char *output = nullptr;
 
-  if(num > 0 || num <= 130)
+  if(num > 0 && num <= 130)
   {
     int msgLen = 24;
     output = new char[msgLen];

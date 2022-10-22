@@ -38,28 +38,35 @@ int main(int argc, const char * argv[])
     {
       bc.powerStatus();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      // FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
+      // TODO: This is not working as expected.  There appears to be an issue with logging enumerations
+      // TODO: Info logging is defaulted however this message is not displayed with info (displayed with warning) 
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
     
     else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "on"))
     {
       bc.powerOn();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "off"))
     {
       bc.powerOff();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "status"))
     {
       bc.powerStatus();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     // ******* Volume *******
@@ -67,7 +74,8 @@ int main(int argc, const char * argv[])
     {
       bc.getVolume();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "volume") && argv[3])
@@ -77,7 +85,8 @@ int main(int argc, const char * argv[])
       {
         bc.setVolume(value);
         Message message = bc.getLastMessage();
-        std::cout << message.datagram.data <<std::endl;
+        FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
       }
       else
       {
@@ -90,7 +99,8 @@ int main(int argc, const char * argv[])
     {
       bc.getInput();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "input") && argv[3])
@@ -113,154 +123,176 @@ int main(int argc, const char * argv[])
     {
       bc.display();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
 
     else if(!strcmp(argv[2], "home") && !argv[3])
     {
       bc.home();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "up") && !argv[3])
     {
       bc.up();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "down") && !argv[3])
     {
       bc.down();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "right") && !argv[3])
     {
       bc.right();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "left") && !argv[3])
     {
       bc.left();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "confirm") && !argv[3])
     {
       bc.confirm();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num1") && !argv[3])
     {
       bc.num1();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num2") && !argv[3])
     {
       bc.num2();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num3") && !argv[3])
     {
       bc.num3();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num4") && !argv[3])
     {
       bc.num4();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num5") && !argv[3])
     {
       bc.num1();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num1") && !argv[3])
     {
       bc.num5();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num6") && !argv[3])
     {
       bc.num6();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num7") && !argv[3])
     {
       bc.num7();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num8") && !argv[3])
     {
       bc.num8();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num9") && !argv[3])
     {
       bc.num9();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "num0") && !argv[3])
     {
       bc.num0();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "hdmi1") && !argv[3])
     {
       bc.hdmi1();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "hdmi2") && !argv[3])
     {
       bc.hdmi2();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "hdmi3") && !argv[3])
     {
       bc.hdmi3();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     else if(!strcmp(argv[2], "hdmi4") && !argv[3])
     {
       bc.hdmi4();
       Message message = bc.getLastMessage();
-      std::cout << message.datagram.data <<std::endl;
+      FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
+
     }
     
     // ******* END *******

@@ -3,7 +3,7 @@
 
 TEST(BraviaCommands, powerOn)
 {
-
+    
 }
 
 TEST(BraviaCommands, powerOff)

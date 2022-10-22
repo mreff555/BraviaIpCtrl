@@ -1,3 +1,0 @@
-/Users/mreff555/src/BraviaIpCtrl/Bravia IP Control/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
-/Users/mreff555/src/BraviaIpCtrl/Bravia IP Control/build/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
-/Users/mreff555/src/BraviaIpCtrl/Bravia IP Control/build/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir

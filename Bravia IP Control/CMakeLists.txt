@@ -47,8 +47,15 @@ include_directories(${googletest_SOURCE_DIR}/googletest/include/gtest)
 add_unit_test(braviaCommands_test)
 gtest_discover_tests(braviaCommands_test)
 
-# TODO Need to run tests on build and fail if tests do not pass
-# reference this: https://stackoverflow.com/questions/15115075/how-to-run-ctest-after-building-my-project-with-cmake
+add_custom_target( all_tests ALL
+  DEPENDS ${UNIT_TEST_TARGETS}
+)
+
+add_custom_command(TARGET all_tests
+  COMMENT "Run tests"
+  POST_BUILD COMMAND ctest ARGS --output-on-failure
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
 add_executable(
   ${CMAKE_PROJECT_NAME}
