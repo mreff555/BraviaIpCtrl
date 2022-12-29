@@ -10,12 +10,12 @@
 #include "log.hpp"
 #include <cstring>
 
-Datagram::Datagram(){}
-Datagram::~Datagram(){}
+Datagram::Datagram() {}
+Datagram::~Datagram() {}
 
-Datagram::Datagram(const char* input)
+Datagram::Datagram(const char *input)
 {
-  if(input)
+  if (input)
   {
     memset(data, 0, 24);
     memcpy(data, input, 24);
@@ -26,11 +26,11 @@ Type Datagram::type()
 {
   Type output = Type::NO_STATEMENT;
 
-  if(this->data[2] == 'C')
+  if (this->data[2] == 'C')
   {
     output = Type::COMMAND;
   }
-  else if(this->data[2] == 'E')
+  else if (this->data[2] == 'E')
   {
     output = Type::ENQUIRY;
   }
@@ -38,7 +38,7 @@ Type Datagram::type()
   {
     output = Type::ANSWER;
   }
-  else if(this->data[2] == 'N')
+  else if (this->data[2] == 'N')
   {
     output = Type::RESULT;
   }
@@ -46,7 +46,6 @@ Type Datagram::type()
   {
     output = Type::NO_STATEMENT;
     FILE_LOG(logWARNING) << "Output type returned NO_STATEMENT";
-
   }
   return output;
 }
@@ -54,43 +53,43 @@ Type Datagram::type()
 Command Datagram::command()
 {
   Command output = Command::NO_STATEMENT;
-  if(!memcmp(&this->data + 3, "IRCC", 4))
+  if (!memcmp(&this->data + 3, "IRCC", 4))
   {
     output = Command::IRCC;
   }
-  else if(!memcmp(&this->data + 3, "POWR", 4))
+  else if (!memcmp(&this->data + 3, "POWR", 4))
   {
     output = Command::POWR;
   }
-  else if(!memcmp(&this->data + 3, "TPOW", 4))
+  else if (!memcmp(&this->data + 3, "TPOW", 4))
   {
     output = Command::TPOW;
   }
-  else if(!memcmp(&this->data + 3, "VOLU", 4))
+  else if (!memcmp(&this->data + 3, "VOLU", 4))
   {
     output = Command::VOLU;
   }
-  else if(!memcmp(&this->data + 3, "AMUT", 4))
+  else if (!memcmp(&this->data + 3, "AMUT", 4))
   {
     output = Command::AMUT;
   }
-  else if(!memcmp(&this->data + 3, "INPT", 4))
+  else if (!memcmp(&this->data + 3, "INPT", 4))
   {
     output = Command::INPT;
   }
-  else if(!memcmp(&this->data + 3, "TPMU", 4))
+  else if (!memcmp(&this->data + 3, "TPMU", 4))
   {
     output = Command::TPMU;
   }
-  else if(!memcmp(&this->data + 3, "BADR", 4))
+  else if (!memcmp(&this->data + 3, "BADR", 4))
   {
     output = Command::BADR;
   }
-  else if(!memcmp(&this->data + 3, "MADR", 4))
+  else if (!memcmp(&this->data + 3, "MADR", 4))
   {
     output = Command::MADR;
   }
-  else if(!memcmp(&this->data + 3, "SCEN", 4))
+  else if (!memcmp(&this->data + 3, "SCEN", 4))
   {
     output = Command::SCEN;
     FILE_LOG(logWARNING) << "Output command returned NO_STATEMENT";
@@ -106,10 +105,7 @@ Value Datagram::value()
   return output;
 }
 
-Message::Message()
-{
-  
-}
+Message::Message() {}
 
 Message::Message(const char *input)
 {
@@ -117,7 +113,4 @@ Message::Message(const char *input)
   this->timestamp = time(NULL);
 }
 
-Message::~Message()
-{
-  
-}
+Message::~Message() {}

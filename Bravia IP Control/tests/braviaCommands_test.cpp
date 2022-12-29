@@ -1,152 +1,62 @@
-#include <gtest/gtest.h>
 #include <braviaCommands.hpp>
+#include <gtest/gtest.h>
 
-TEST(BraviaCommands, powerOn)
-{
-    
-}
+TEST(BraviaCommands, powerOn) {}
 
-TEST(BraviaCommands, powerOff)
-{
+TEST(BraviaCommands, powerOff) {}
 
-}
+TEST(BraviaCommands, powerStatus) {}
 
-TEST(BraviaCommands, powerStatus)
-{
+TEST(BraviaCommands, setVolume) {}
 
-}
+TEST(BraviaCommands, getVolume) {}
 
-TEST(BraviaCommands, setVolume)
-{
+TEST(BraviaCommands, setInput) {}
 
-}
+TEST(BraviaCommands, getInput) {}
 
-TEST(BraviaCommands, getVolume)
-{
+TEST(BraviaCommands, waittest) {}
 
-}
+TEST(BraviaCommands, display) {}
 
-TEST(BraviaCommands, setInput)
-{
+TEST(BraviaCommands, home) {}
 
-}
+TEST(BraviaCommands, up) {}
 
-TEST(BraviaCommands, getInput)
-{
+TEST(BraviaCommands, down) {}
 
-}
+TEST(BraviaCommands, left) {}
 
-TEST(BraviaCommands, waittest)
-{
+TEST(BraviaCommands, right) {}
 
-}
+TEST(BraviaCommands, confirm) {}
 
-TEST(BraviaCommands, display)
-{
+TEST(BraviaCommands, num1) {}
 
-}
+TEST(BraviaCommands, num2) {}
 
-TEST(BraviaCommands, home)
-{
+TEST(BraviaCommands, num3) {}
 
-}
+TEST(BraviaCommands, num4) {}
 
-TEST(BraviaCommands, up)
-{
+TEST(BraviaCommands, num5) {}
 
-}
+TEST(BraviaCommands, num6) {}
 
-TEST(BraviaCommands, down)
-{
+TEST(BraviaCommands, num7) {}
 
-}
+TEST(BraviaCommands, num8) {}
 
-TEST(BraviaCommands, left)
-{
+TEST(BraviaCommands, num9) {}
 
-}
+TEST(BraviaCommands, num0) {}
 
-TEST(BraviaCommands, right)
-{
+TEST(BraviaCommands, hdmi1) {}
 
-}
+TEST(BraviaCommands, hdmi2) {}
 
-TEST(BraviaCommands, confirm)
-{
+TEST(BraviaCommands, hdmi3) {}
 
-}
+TEST(BraviaCommands, hdmi4) {}
 
-TEST(BraviaCommands, num1)
-{
-
-}
-
-TEST(BraviaCommands, num2)
-{
-
-}
-
-TEST(BraviaCommands, num3)
-{
-
-}
-
-TEST(BraviaCommands, num4)
-{
-
-}
-
-TEST(BraviaCommands, num5)
-{
-
-}
-
-TEST(BraviaCommands, num6)
-{
-
-}
-
-TEST(BraviaCommands, num7)
-{
-
-}
-
-TEST(BraviaCommands, num8)
-{
-
-}
-
-TEST(BraviaCommands, num9)
-{
-
-}
-
-TEST(BraviaCommands, num0)
-{
-
-}
-
-TEST(BraviaCommands, hdmi1)
-{
-
-}
-
-TEST(BraviaCommands, hdmi2)
-{
-
-}
-
-TEST(BraviaCommands, hdmi3)
-{
-
-}
-
-TEST(BraviaCommands, hdmi4)
-{
-
-}
-
-TEST(BraviaCommands, getLastMessage)
-{
-
-}
+TEST(BraviaCommands, getLastMessage) {}

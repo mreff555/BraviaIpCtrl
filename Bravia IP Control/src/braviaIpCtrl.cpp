@@ -10,59 +10,56 @@
 #include <algorithm>
 #include <chrono>
 #include <cstring>
+#include <ctime>
 #include <string>
 #include <thread>
-#include <ctime>
- 
-BraviaIpCtrl::BraviaIpCtrl(const char* addr)
+
+BraviaIpCtrl::BraviaIpCtrl(const char *addr)
 {
-    if(addr == nullptr)
-    {
-      FILE_LOG(logERROR) << "invalid ip address " << addr;
-      exit(EXIT_FAILURE);
-    }
-    else
-    {
-      init(addr);
-    }
+  if (addr == nullptr)
+  {
+    FILE_LOG(logERROR) << "invalid ip address " << addr;
+    exit(EXIT_FAILURE);
+  }
+  else
+  {
+    init(addr);
+  }
 }
- 
-BraviaIpCtrl::~BraviaIpCtrl()
-{
-  close(socket_fd);
-}
- 
+
+BraviaIpCtrl::~BraviaIpCtrl() { close(socket_fd); }
+
 bool BraviaIpCtrl::powerOn()
 {
   sendMessage(bctl_power_on);
   return validateMessage(bctl_power_success);
 }
- 
+
 bool BraviaIpCtrl::powerOff()
 {
   sendMessage(bctl_power_off);
   return validateMessage(bctl_power_success);
 }
- 
+
 bool BraviaIpCtrl::powerStatus()
 {
   sendMessage(bctl_power_status);
   return validateMessage(bctl_power_status_on);
 }
- 
+
 bool BraviaIpCtrl::setVolume(const unsigned short value)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   char *command = nullptr;
   command = _setVolume(bctl_volume_set, value);
-  if(command != nullptr)
+  if (command != nullptr)
   {
     sendMessage(command);
   }
   return validateMessage(bctl_volume_set_success);
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
+
 short BraviaIpCtrl::getVolume()
 {
   FILE_LOG(logFUNCTION) << "Entering";
@@ -72,20 +69,20 @@ short BraviaIpCtrl::getVolume()
   return atoi(charNum);
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
+
 bool BraviaIpCtrl::setInput(const Input_t value)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   char *command = nullptr;
   command = _setInput(bctl_input_set, value);
-  if(command != nullptr)
+  if (command != nullptr)
   {
     sendMessage(command);
   }
   return validateMessage(bctl_input_success);
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
+
 // TODO: Not really sure how I envisioned this working,
 // but the actual TCP command doesn't seem to work correctly
 // anyway.  Must further investigate.
@@ -96,7 +93,7 @@ short BraviaIpCtrl::getInput()
   char charNum[5];
   memset(&charNum, 0, 5);
   memcpy(&charNum, &messages.back().datagram.data, 4);
-  //std::cout << charNum <<std::endl;
+  // std::cout << charNum <<std::endl;
   return atoi(charNum);
   FILE_LOG(logFUNCTION) << "Exiting";
 }
@@ -105,7 +102,7 @@ bool BraviaIpCtrl::sendIircCmd(const unsigned short value)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  if(value >= 128 && value > 0)
+  if (value >= 128 && value > 0)
   {
     const char *tmpCmd = iircCommand(value);
     sendMessage(tmpCmd);
@@ -120,7 +117,7 @@ void BraviaIpCtrl::wait(unsigned short seconds)
 {
   std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
- 
+
 // ircc commands
 
 bool BraviaIpCtrl::display()
@@ -157,7 +154,6 @@ bool BraviaIpCtrl::up()
   validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
-
 };
 
 bool BraviaIpCtrl::down()
@@ -170,7 +166,6 @@ bool BraviaIpCtrl::down()
   validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
-
 };
 
 bool BraviaIpCtrl::right()
@@ -183,7 +178,6 @@ bool BraviaIpCtrl::right()
   validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
-
 };
 
 bool BraviaIpCtrl::left()
@@ -196,7 +190,6 @@ bool BraviaIpCtrl::left()
   validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
-
 };
 
 bool BraviaIpCtrl::confirm()
@@ -209,7 +202,6 @@ bool BraviaIpCtrl::confirm()
   validateMessage(bctl_ircc_success);
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
-
 };
 
 bool BraviaIpCtrl::num1()
@@ -382,11 +374,11 @@ bool BraviaIpCtrl::hdmi4()
 
 // Private
 
-bool BraviaIpCtrl::init(const char* addr)
+bool BraviaIpCtrl::init(const char *addr)
 {
   bool success = true;
   FILE_LOG(logFUNCTION) << "Entering";
-  
+
   // TODO: Debugger is calling EXC_BAD_ALLOC errors
   // A known thread safety issue with gethostbyname(...)  GNU extensions
   // have a modified gethostbyname_r(...) which may fix this, but Darwin
@@ -399,10 +391,10 @@ bool BraviaIpCtrl::init(const char* addr)
   memset(&recBuffer, 0, sizeof(recBuffer));
   hostAddr.sin_family = AF_INET;
   hostAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  hostAddr.sin_addr.s_addr = ((struct in_addr*)(host->h_addr))->s_addr;
+  hostAddr.sin_addr.s_addr = ((struct in_addr *)(host->h_addr))->s_addr;
   hostAddr.sin_port = htons(bravia_port);
-  
-  if((socket_fd = socket(AF_INET,SOCK_STREAM, 0)) < 0)
+
+  if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
   {
     FILE_LOG(logERROR) << "Socket failed";
     success = false;
@@ -410,7 +402,8 @@ bool BraviaIpCtrl::init(const char* addr)
   }
   else
   {
-    if(connect(socket_fd, (struct sockaddr *)&hostAddr, sizeof(struct sockaddr)))
+    if (connect(socket_fd, (struct sockaddr *)&hostAddr,
+                sizeof(struct sockaddr)))
     {
       FILE_LOG(logERROR) << "Connection failed";
       success = false;
@@ -420,12 +413,12 @@ bool BraviaIpCtrl::init(const char* addr)
   FILE_LOG(logFUNCTION) << "Exiting";
   return success;
 }
- 
+
 bool BraviaIpCtrl::sendMessage(const char *command)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool success = false;
-  if(!command)
+  if (!command)
   {
     FILE_LOG(logERROR) << "Null Message";
   }
@@ -433,34 +426,35 @@ bool BraviaIpCtrl::sendMessage(const char *command)
   {
     fd_set sockRead;
     int selectStatus;
-     
+
     memcpy(&sendBuffer, command, sizeof(sendBuffer));
-    if((write(socket_fd, sendBuffer, strlen(sendBuffer))) > 0)
+    if ((write(socket_fd, sendBuffer, strlen(sendBuffer))) > 0)
     {
       do
       {
         FD_ZERO(&sockRead);
         FD_SET(socket_fd, &sockRead);
-        selectStatus = select(socket_fd + 1, &sockRead, NULL, NULL, &select_timeout);
-         
-        switch(selectStatus)
+        selectStatus =
+            select(socket_fd + 1, &sockRead, NULL, NULL, &select_timeout);
+
+        switch (selectStatus)
         {
-          case -1:
-              FILE_LOG(logERROR) << "select() returned -1";
-            exit(EXIT_FAILURE);
-            break;
-            
-          case 0:
-            FILE_LOG(logDEBUG) << "select() returned 0";
-            break;
-   
-          default:
-            read(socket_fd, recBuffer, sizeof(recBuffer));
-            
-            struct Message msg;
-            msg.timestamp = time(nullptr);
-            memcpy(&msg.datagram.data, &recBuffer, sizeof(recBuffer));
-            messages.push_back(msg);
+        case -1:
+          FILE_LOG(logERROR) << "select() returned -1";
+          exit(EXIT_FAILURE);
+          break;
+
+        case 0:
+          FILE_LOG(logDEBUG) << "select() returned 0";
+          break;
+
+        default:
+          read(socket_fd, recBuffer, sizeof(recBuffer));
+
+          struct Message msg;
+          msg.timestamp = time(nullptr);
+          memcpy(&msg.datagram.data, &recBuffer, sizeof(recBuffer));
+          messages.push_back(msg);
         }
       } while (selectStatus > 0);
       success = true;
@@ -469,52 +463,54 @@ bool BraviaIpCtrl::sendMessage(const char *command)
   FILE_LOG(logFUNCTION) << "Exiting with result " << success;
   return success;
 }
- 
-int BraviaIpCtrl::validateMessage(const char* expected_result)
+
+int BraviaIpCtrl::validateMessage(const char *expected_result)
 {
   FILE_LOG(logFUNCTION) << "Entering";
   bool result = false;
   std::vector<Message>::reverse_iterator it;
-  for(it = messages.rbegin(); it != messages.rend(); ++it)
+  for (it = messages.rbegin(); it != messages.rend(); ++it)
   {
     double diffTime = std::difftime(time(nullptr), it->timestamp);
-    
+
     Message expected(expected_result);
-    
+
     // found a matching type and command within the alotted time.
-    if(expected.datagram.type() == it->datagram.type()
-       && expected.datagram.command() == it->datagram.command()
-       && diffTime < msg_expire_age)
+    if (expected.datagram.type() == it->datagram.type() &&
+        expected.datagram.command() == it->datagram.command() &&
+        diffTime < msg_expire_age)
     {
       result = 1;
       FILE_LOG(logINFO) << "Reveived messgage " << nullterm(it->datagram.data)
-        << " within " << diffTime << " seconds";
+                        << " within " << diffTime << " seconds";
       continue;
     }
-    
+
     // found a matching command after timeout had expired.
-    else if(strcmp(it->datagram.data, bctl_volume_set_success) == 0 && diffTime >= msg_expire_age)
+    else if (strcmp(it->datagram.data, bctl_volume_set_success) == 0 &&
+             diffTime >= msg_expire_age)
     {
       result = -1;
-      FILE_LOG(logWARNING) << "Reveived Expired messgage " << nullterm(it->datagram.data)
-        << " at " << diffTime << " seconds";
+      FILE_LOG(logWARNING) << "Reveived Expired messgage "
+                           << nullterm(it->datagram.data) << " at " << diffTime
+                           << " seconds";
       continue;
     }
   }
-  if(!result)
+  if (!result)
   {
-    FILE_LOG(logERROR) << "No match: " << nullterm(it->datagram.data) << " vs expected " << expected_result;
+    FILE_LOG(logERROR) << "No match: " << nullterm(it->datagram.data)
+                       << " vs expected " << expected_result;
   }
   return result;
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
- 
+
 char *BraviaIpCtrl::_setVolume(const char *input, unsigned short value)
 {
-     FILE_LOG(logFUNCTION) << "Entering";
-   char *output = nullptr;
-  if(value <= max_volume)
+  FILE_LOG(logFUNCTION) << "Entering";
+  char *output = nullptr;
+  if (value <= max_volume)
   {
     int msgLen = message_length;
     output = new char[msgLen];
@@ -527,15 +523,15 @@ char *BraviaIpCtrl::_setVolume(const char *input, unsigned short value)
   return output;
   FILE_LOG(logFUNCTION) << "Exiting";
 }
- 
+
 Message BraviaIpCtrl::getLastMessage()
 {
   // Replacing the last character of
   // the message, which is a carrige return
   // with a null terminator for printing purposes
-  
+
   Message m = {0};
-  if(messages.size())
+  if (messages.size())
   {
     m = messages.back();
     m.datagram.data[23] = '\0';
@@ -543,42 +539,41 @@ Message BraviaIpCtrl::getLastMessage()
   return m;
 }
 
-
 char *BraviaIpCtrl::_setInput(const char *input, Input_t type)
 {
   FILE_LOG(logFUNCTION) << "Entering";
-   char *output = nullptr;
-    int msgLen = 24;
-    output = new char[msgLen];
-    memset(output, 0, sizeof(*output));
-    memcpy(output, input, msgLen);
-    switch (type)
-    {
-      case INPUT_HDMI_1:
-        memset(output + 14, '1', sizeof(char));
-        memset(output + 22, '1', sizeof(char));
-      break;
-      case INPUT_HDMI_2:
-        memset(output + 14, '1', sizeof(char));
-        memset(output + 22, '2', sizeof(char));
-        break;
-      case INPUT_HDMI_3:
-        memset(output + 14, '1', sizeof(char));
-        memset(output + 22, '3', sizeof(char));
-        break;
-      case INPUT_HDMI_4:
-        memset(output + 14, '1', sizeof(char));
-        memset(output + 22, '4', sizeof(char));
-        break;
-      case INPUT_COMPONENT_1:
-        memset(output + 14, '4', sizeof(char));
-        memset(output + 22, '1', sizeof(char));
-      break;
-      case INPUT_SCR_MIRROR_1:
-        memset(output + 14, '5', sizeof(char));
-        memset(output + 22, '1', sizeof(char));
-        break;
-    }
+  char *output = nullptr;
+  int msgLen = 24;
+  output = new char[msgLen];
+  memset(output, 0, sizeof(*output));
+  memcpy(output, input, msgLen);
+  switch (type)
+  {
+  case INPUT_HDMI_1:
+    memset(output + 14, '1', sizeof(char));
+    memset(output + 22, '1', sizeof(char));
+    break;
+  case INPUT_HDMI_2:
+    memset(output + 14, '1', sizeof(char));
+    memset(output + 22, '2', sizeof(char));
+    break;
+  case INPUT_HDMI_3:
+    memset(output + 14, '1', sizeof(char));
+    memset(output + 22, '3', sizeof(char));
+    break;
+  case INPUT_HDMI_4:
+    memset(output + 14, '1', sizeof(char));
+    memset(output + 22, '4', sizeof(char));
+    break;
+  case INPUT_COMPONENT_1:
+    memset(output + 14, '4', sizeof(char));
+    memset(output + 22, '1', sizeof(char));
+    break;
+  case INPUT_SCR_MIRROR_1:
+    memset(output + 14, '5', sizeof(char));
+    memset(output + 22, '1', sizeof(char));
+    break;
+  }
   FILE_LOG(logFUNCTION) << "Exiting";
   return output;
 }
