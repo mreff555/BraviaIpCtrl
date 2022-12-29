@@ -106,8 +106,8 @@ class BraviaIpCtrl : public BraviaCommands
   
   struct hostent *host;
 
-  char sendBuffer[24];
-  char recBuffer[24];
+  char sendBuffer[message_length];
+  char recBuffer[message_length];
 
   int socket_fd;
   
