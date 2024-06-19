@@ -16,8 +16,7 @@
 #include <cstring>
 #include <ctime>
 
-enum Input_t
-{
+enum Input_t {
   INPUT_HDMI_1 = 11,
   INPUT_HDMI_2 = 12,
   INPUT_HDMI_3 = 13,
@@ -26,16 +25,8 @@ enum Input_t
   INPUT_SCR_MIRROR_1 = 51
 };
 
-enum class Type
-{
-  NO_STATEMENT,
-  COMMAND,
-  ENQUIRY,
-  ANSWER,
-  RESULT
-};
-enum class Command
-{
+enum class Type { NO_STATEMENT, COMMAND, ENQUIRY, ANSWER, RESULT };
+enum class Command {
   NO_STATEMENT,
   IRCC,
   POWR,
@@ -50,15 +41,9 @@ enum class Command
   SCEN
 };
 
-enum class Status
-{
-  NO_STATEMENT,
-  FAIL,
-  SUCCESS
-};
+enum class Status { NO_STATEMENT, FAIL, SUCCESS };
 
-union Value
-{
+union Value {
   char string[17];
   unsigned short number;
 };
@@ -277,21 +262,18 @@ static const char *bctl_ircc_help = "*SCIRCC0000000000000130\n";
 // Replaces the 24th character of a string with a null
 // terminator.  Intended to make messages printable without
 // the unwanted line feed, and possible garbage text.
-static const inline char *nullterm(const char *input)
-{
+static const inline char *nullterm(const char *input) {
   char *output = (char *)malloc(24);
   memcpy(output, input, 24);
   memset(output + 23, '\0', 1);
   return output;
 }
 
-static const char *iircCommand(const unsigned short num)
-{
+static const char *iircCommand(const unsigned short num) {
   FILE_LOG(logFUNCTION) << "Entering";
   char *output = nullptr;
 
-  if (num > 0 && num <= 130)
-  {
+  if (num > 0 && num <= 130) {
     int msgLen = 24;
     output = new char[msgLen];
     memset(output, 0, sizeof(*output));

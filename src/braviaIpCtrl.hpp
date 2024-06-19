@@ -4,9 +4,9 @@
  * @brief Opens the connection and processes the requests
  * @version 0.1
  * @date 2020-03-01
- * 
+ *
  * @copyright Copyright © 2020 Dan Feerst. All rights reserved.
- * 
+ *
  */
 
 #ifndef braviaIpCtl_hpp
@@ -20,33 +20,32 @@
 #include <unistd.h>
 #include <vector>
 
-class BraviaIpCtrl : public BraviaCommands
-{
-  public:
-  BraviaIpCtrl(const char*);
+class BraviaIpCtrl : public BraviaCommands {
+public:
+  BraviaIpCtrl(const char *);
 
   virtual ~BraviaIpCtrl();
-  
+
   bool powerOn() override;
-  
+
   bool powerOff() override;
-  
+
   bool powerStatus() override;
-  
+
   bool setVolume(const unsigned short) override;
-  
+
   short getVolume() override;
-  
+
   bool setInput(const Input_t) override;
-  
+
   short getInput() override;
-  
+
   void wait(unsigned short) override;
-  
+
   // ircc commands
-  
+
   bool display() override;
-  
+
   bool home() override;
 
   bool up() override;
@@ -80,41 +79,40 @@ class BraviaIpCtrl : public BraviaCommands
   bool num0() override;
 
   bool hdmi1() override;
-  
+
   bool hdmi2() override;
 
   bool hdmi3() override;
 
-  bool hdmi4() override; 
+  bool hdmi4() override;
 
   Message getLastMessage() override;
-  
-  private:
-  bool init(const char*);
-  
-  bool sendMessage(const char*);
-  
-  int validateMessage(const char*);
-  
-  char *_setVolume(const char*, unsigned short);
-  
-  char *_setInput(const char*, Input_t);
-  
+
+private:
+  bool init(const char *);
+
+  bool sendMessage(const char *);
+
+  int validateMessage(const char *);
+
+  char *_setVolume(const char *, unsigned short);
+
+  char *_setInput(const char *, Input_t);
+
   bool sendIircCmd(const unsigned short value);
 
   struct sockaddr_in hostAddr;
-  
+
   struct hostent *host;
 
   char sendBuffer[message_length];
   char recBuffer[message_length];
 
   int socket_fd;
-  
+
   std::vector<Message> messages;
-  
+
   BraviaIpCtrl *bc;
-    
 };
 
 #endif /* braviaIpCtl_hpp */
