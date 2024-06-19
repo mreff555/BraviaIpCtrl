@@ -1,0 +1,3 @@
+[submodule "Bravia IP Control/third_party/curl"]
+	path = Bravia IP Control/third_party/curl
+	url = https://github.com/curl/curl.git

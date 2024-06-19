@@ -21,6 +21,8 @@ include_directories(
   ${TEST_DIRECTORY}
   )
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/curl)
+
 file(GLOB SOURCES "${SOURCE_DIRECTORY}/*.cpp")
 
 ### Unit Testing ###

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Dan Feerst. All rights reserved.
 //
 
-#define MAX_LOG_LEVEL "INFO"
+#define MAX_LOG_LEVEL "TRACE"
 
 // TODO: The goal here is to seperate braviaIpCtrl from the UI.
 // BraviaCommands is an interface created for this purpose, but I still need
@@ -23,12 +23,10 @@
 int main(int argc, const char *argv[])
 {
   FILELog::ReportingLevel() = FILELog::FromString(MAX_LOG_LEVEL);
-  FILE_LOG(logTRACE) << "argc = " << argc;
+  Output2FILE::Stream();
 
   if (argc > 2 && argc < 5)
   {
-    std::cout << argc << std::endl;
-
     FILE_LOG(logFUNCTION) << "Entering";
     BraviaIpCtrl bc(argv[1]);
 
