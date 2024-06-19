@@ -1,8 +1,7 @@
-# Objects
 *.o
 *.dSYM
 *.swp
-"Bravia IP Control"/build
-# Executibles
-bctl
+"Bravia IP Control"
 .vscode
+build
+third_party/**

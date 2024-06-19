@@ -20,19 +20,16 @@
 #include <iomanip>
 #include <iostream>
 
-int main(int argc, const char *argv[])
-{
+int main(int argc, const char *argv[]) {
   FILELog::ReportingLevel() = FILELog::FromString(MAX_LOG_LEVEL);
   Output2FILE::Stream();
 
-  if (argc > 2 && argc < 5)
-  {
+  if (argc > 2 && argc < 5) {
     FILE_LOG(logFUNCTION) << "Entering";
     BraviaIpCtrl bc(argv[1]);
 
     // ******* Power *******
-    if (!strcmp(argv[2], "power") && !argv[3])
-    {
+    if (!strcmp(argv[2], "power") && !argv[3]) {
       bc.powerStatus();
       Message message = bc.getLastMessage();
       // FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
@@ -44,238 +41,201 @@ int main(int argc, const char *argv[])
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "on"))
-    {
+    else if (!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "on")) {
       bc.powerOn();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "off"))
-    {
+    else if (!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "off")) {
       bc.powerOff();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "power") && argv[3] && !strcmp(argv[3], "status"))
-    {
+    else if (!strcmp(argv[2], "power") && argv[3] &&
+             !strcmp(argv[3], "status")) {
       bc.powerStatus();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
     // ******* Volume *******
-    else if (!strcmp(argv[2], "volume") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "volume") && !argv[3]) {
       bc.getVolume();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "volume") && argv[3])
-    {
+    else if (!strcmp(argv[2], "volume") && argv[3]) {
       unsigned short value = atoi(argv[3]);
-      if (value >= 0 && value < 100)
-      {
+      if (value >= 0 && value < 100) {
         bc.setVolume(value);
         Message message = bc.getLastMessage();
         FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
-      }
-      else
-      {
+      } else {
         FILE_LOG(logERROR) << "Value out of range (0 - 100), received: "
                            << value;
       }
     }
 
     // ******* MODE *******
-    else if (!strcmp(argv[2], "input") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "input") && !argv[3]) {
       bc.getInput();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "input") && argv[3])
-    {
+    else if (!strcmp(argv[2], "input") && argv[3]) {
       // unsigned short value = atoi(argv[3]);
       Input_t value = (Input_t)atoi(argv[3]);
-      if (value >= INPUT_HDMI_1 && value <= INPUT_SCR_MIRROR_1)
-      {
+      if (value >= INPUT_HDMI_1 && value <= INPUT_SCR_MIRROR_1) {
         bc.setInput(value);
-      }
-      else
-      {
+      } else {
         FILE_LOG(logERROR) << "Input value out of range (1-4), received "
                            << value;
       }
     }
 
     // ******* IRCC *******
-    else if (!strcmp(argv[2], "display") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "display") && !argv[3]) {
       bc.display();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "home") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "home") && !argv[3]) {
       bc.home();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "up") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "up") && !argv[3]) {
       bc.up();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "down") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "down") && !argv[3]) {
       bc.down();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "right") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "right") && !argv[3]) {
       bc.right();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "left") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "left") && !argv[3]) {
       bc.left();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "confirm") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "confirm") && !argv[3]) {
       bc.confirm();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num1") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num1") && !argv[3]) {
       bc.num1();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num2") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num2") && !argv[3]) {
       bc.num2();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num3") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num3") && !argv[3]) {
       bc.num3();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num4") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num4") && !argv[3]) {
       bc.num4();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num5") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num5") && !argv[3]) {
       bc.num1();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num1") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num1") && !argv[3]) {
       bc.num5();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num6") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num6") && !argv[3]) {
       bc.num6();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num7") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num7") && !argv[3]) {
       bc.num7();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num8") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num8") && !argv[3]) {
       bc.num8();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num9") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num9") && !argv[3]) {
       bc.num9();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "num0") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "num0") && !argv[3]) {
       bc.num0();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "hdmi1") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "hdmi1") && !argv[3]) {
       bc.hdmi1();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "hdmi2") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "hdmi2") && !argv[3]) {
       bc.hdmi2();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "hdmi3") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "hdmi3") && !argv[3]) {
       bc.hdmi3();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
-    else if (!strcmp(argv[2], "hdmi4") && !argv[3])
-    {
+    else if (!strcmp(argv[2], "hdmi4") && !argv[3]) {
       bc.hdmi4();
       Message message = bc.getLastMessage();
       FILE_LOG(logINFO) << "Message Data: " << message.datagram.data;
     }
 
     // ******* END *******
-    else
-    {
+    else {
       FILE_LOG(logERROR) << "Unknown parameter: " << argv[2] << " " << argv[3];
     }
     FILE_LOG(logFUNCTION) << "Exiting";
-  }
-  else
-  {
+  } else {
     // TODO: There has got to be a way to use a macro to clean up the tabs and
     // backspaces
     std::cout << "Usage: bctl [address] [command] [value]\n";

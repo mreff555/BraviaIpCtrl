@@ -11,8 +11,7 @@
 #include <braviaTypes.hpp>
 #include <constants.hpp>
 
-union Datagram
-{
+union Datagram {
   char data[message_length];
 
   Datagram();
@@ -40,8 +39,7 @@ union Datagram
   Value value();
 };
 
-struct Message
-{
+struct Message {
   time_t timestamp;
   Datagram datagram;
 

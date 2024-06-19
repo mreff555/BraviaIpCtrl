@@ -14,7 +14,20 @@ This project is still evolving, and of course welcoming all creative input.  Her
   * Apple TV support
   * Automatic identification of devices
 
-Reference:
+## CLI Usage
+
+Currently the CLI requires either two or three arguments depending on the command used
+
+`bctl <address> <command> [value]`
+
+- address:  The IPv4 address of the listening bravia device
+- command: Discrete commands or the category of functional area you are trying to control.
+- value: When required passes a specific value to the command
+
+see the command help for more info: `bctl -h`  
+
+## Reference:
+
 - Command Definitions
   * https://pro-bravia.sony.net/develop/integrate/ssip/command-definitions/
   * https://help.apple.com/itc/tvpsso/#/itc870b0d0da
